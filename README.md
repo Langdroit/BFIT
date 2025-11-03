@@ -16,4 +16,4 @@ En la **Semana 1** se desarrolla la base del MVP:
 ## Ejecución
 1. Abrir el proyecto en Android Studio.
 2. Compilar con **Build ▸ Make Project**.
-3. Ejecutar con **Run ** en el emulador.
+3. Ejecutar con ** Run ** en el emulador.
