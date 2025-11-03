@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">BFIT</string>
+
+    <string-array name="sexo_array">
+        <item>Masculino</item>
+        <item>Femenino</item>
+    </string-array>
+
+    <string-array name="estructura_array">
+        <item>Pequeña</item>
+        <item>Mediana</item>
+        <item>Grande</item>
+    </string-array>
 </resources>
+

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:text="BFIT – Evaluación de Salud"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Sexo -->
+        <TextView
+            android:text="Sexo:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spSexo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/sexo_array" />
+
+        <!-- Edad -->
+        <TextView
+            android:text="Edad:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etEdad"
+            android:inputType="number"
+            android:hint="Años"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Altura -->
+        <TextView
+            android:text="Altura (cm):"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etAltura"
+            android:inputType="numberDecimal"
+            android:hint="Ejemplo: 175"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Peso -->
+        <TextView
+            android:text="Peso (kg):"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etPeso"
+            android:inputType="numberDecimal"
+            android:hint="Ejemplo: 70"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Estructura física -->
+        <TextView
+            android:text="Estructura física:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spEstructura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/estructura_array" />
+
+        <!-- Cintura -->
+        <TextView
+            android:text="Cintura (cm):"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etCintura"
+            android:inputType="numberDecimal"
+            android:hint="Ejemplo: 85"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Botón Calcular -->
+        <Button
+            android:id="@+id/btnCalcular"
+            android:text="Calcular"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Resultados -->
+        <TextView
+            android:id="@+id/tvResultadoIMC"
+            android:text="IMC: "
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvResultadoBFIT1"
+            android:text="BFIT 1: "
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvResultadoBFIT2"
+            android:text="BFIT 2: "
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvEstadoGlobal"
+            android:text="Estado Global: "
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>
