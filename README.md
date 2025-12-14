@@ -16,6 +16,15 @@ En la **Semana 1** se desarrolla la base del MVP:
 - Adición de validaciones y mensajes de error para mejorar la experiencia del usuario.
 - Reorganización completa del proyecto en tres capas: UI, ViewModel y Domain.
 
+## Actualización Fianal – Iteración de interfaz y experiencia de usuario
+  Durante esta iteración se incorporaron mejoras significativas en la experiencia de usuario y en la coherencia visual de la aplicación:
+- Unificación del encabezado visual (**logo BFIT + subtítulo**) en todas las pantallas principales para mantener consistencia de identidad.
+- Reorganización del layout en las pantallas de Resultados, Resumen e Información, mejorando la jerarquía visual y la legibilidad de los datos.
+- Implementación de navegación más clara, incorporando botones de **volver** e **inicio** según el contexto de uso.
+- Mejora en el flujo de la pantalla de evaluación, asegurando que los resultados calculados sean visibles mediante desplazamiento automático.
+- Ajustes estéticos generales (espaciados, alineación y tamaños de texto) siguiendo principios de diseño simple y minimalista.
+  Estas mejoras consolidan la aplicación como un MVP funcional, claro y consistente desde el punto de vista visual y de navegación.
+
 ## Tecnología
 - Android Studio Baklava (Kotlin, Jetpack Compose, Material 3)
 - Arquitectura **MVVM** (UI + ViewModel + Domain)
