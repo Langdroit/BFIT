@@ -9,6 +9,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.bfit.app.Screen
+import com.bfit.app.ui.components.BfitHeader
 
 @Composable
 fun ResultScreen(
@@ -18,54 +19,55 @@ fun ResultScreen(
     bfit2Resultado: String,
     estadoGlobal: String
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(WindowInsets.systemBars.asPaddingValues())
+            .padding(horizontal = 24.dp)
     ) {
 
-        // 🔹 Título centrado
-        Text(
-            text = "Resultados BFIT",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
+        /* ---------- HEADER ---------- */
+        BfitHeader(title = "Resultados")
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        // 🔹 Encabezados de columnas
+        /* ---------- ENCABEZADOS ---------- */
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Tu evaluación", style = MaterialTheme.typography.titleMedium)
-            Text("Valores ideales", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = "Tu evaluación",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = "Valores ideales",
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.End
+            )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Divider()
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
-        // 🔹 Fila IMC
+        /* ---------- RESULTADOS ---------- */
         ResultRow(
             leftText = imcResultado,
             rightText = "IMC: 18.5 – 24.9"
         )
 
-        // 🔹 Fila BFIT 1
         ResultRow(
             leftText = bfit1Resultado,
-            rightText = "BFIT 1: Relación peso/altura saludable"
+            rightText = "Relación peso / altura saludable"
         )
 
-        // 🔹 Fila BFIT 2
         ResultRow(
             leftText = bfit2Resultado,
-            rightText = "BFIT 2: Cintura dentro del rango normal"
+            rightText = "Cintura dentro del rango normal"
         )
 
-        // 🔹 Fila Estado global
         ResultRow(
             leftText = estadoGlobal,
             rightText = "Estado esperado: Óptimo"
@@ -73,27 +75,35 @@ fun ResultScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
+        /* ---------- BOTÓN ---------- */
         Button(
             onClick = { navController.navigate(Screen.History.route) },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Ver Resumen")
+            Text("Ver resumen")
         }
     }
 }
 
 @Composable
-fun ResultRow(leftText: String, rightText: String) {
+fun ResultRow(
+    leftText: String,
+    rightText: String
+) {
     Column {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
+
             Text(
                 text = leftText,
                 modifier = Modifier.weight(1f)
             )
+
             Spacer(modifier = Modifier.width(16.dp))
+
             Text(
                 text = rightText,
                 modifier = Modifier.weight(1f),

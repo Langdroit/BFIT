@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.bfit.app.Screen
+import com.bfit.app.ui.components.BfitLogo
+
 
 @Composable
 fun WelcomeScreen(navController: NavHostController) {
@@ -19,7 +21,8 @@ fun WelcomeScreen(navController: NavHostController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Bienvenido a BFIT")
+        BfitLogo()
+
 
         Spacer(modifier = Modifier.height(24.dp))
 

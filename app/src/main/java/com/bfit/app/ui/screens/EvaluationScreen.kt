@@ -1,6 +1,5 @@
 package com.bfit.app.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -9,16 +8,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.bfit.app.Screen
+import com.bfit.app.ui.components.BfitHeader
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import androidx.compose.runtime.LaunchedEffect
 
 @Composable
 fun EvaluationScreen(navController: NavHostController) {
+
+    /* ---------- Datos de formulario ---------- */
 
     val sexos = listOf("Masculino", "Femenino")
     val estructuras = listOf("Pequeña", "Mediana", "Grande")
@@ -30,6 +32,8 @@ fun EvaluationScreen(navController: NavHostController) {
     var estructura by remember { mutableStateOf(estructuras[1]) }
     var cintura by remember { mutableStateOf("") }
 
+    /* ---------- Resultados ---------- */
+
     var imcResultado by remember { mutableStateOf("") }
     var bfit1Resultado by remember { mutableStateOf("") }
     var bfit2Resultado by remember { mutableStateOf("") }
@@ -38,21 +42,35 @@ fun EvaluationScreen(navController: NavHostController) {
 
     var evaluacionCalculada by remember { mutableStateOf(false) }
 
+    /* ---------- Scroll ---------- */
+
     val scrollState = rememberScrollState()
+
+    // Auto-scroll al calcular
+    LaunchedEffect(evaluacionCalculada) {
+        if (evaluacionCalculada) {
+            scrollState.animateScrollTo(scrollState.maxValue)
+        }
+    }
+
+    /* ---------- UI ---------- */
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(WindowInsets.systemBars.asPaddingValues())
-            .padding(horizontal = 16.dp)
-            .verticalScroll(scrollState),
+            .verticalScroll(scrollState)
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            "BFIT – Evaluación de Salud",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+
+        /* ---------- HEADER UNIFICADO ---------- */
+
+        BfitHeader(title = "Evaluación de Salud")
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        /* ---------- FORMULARIO ---------- */
 
         DropdownCampo("Sexo", sexos, sexo) { sexo = it }
         CampoTexto("Edad (años)", edad) { edad = it }
@@ -61,76 +79,86 @@ fun EvaluationScreen(navController: NavHostController) {
         DropdownCampo("Estructura", estructuras, estructura) { estructura = it }
         CampoTexto("Cintura (cm)", cintura) { cintura = it }
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
-        Button(onClick = {
-            if (altura.isNotBlank() && peso.isNotBlank() && cintura.isNotBlank()) {
-                val alt = altura.toDouble()
-                val pes = peso.toDouble()
-                val cin = cintura.toDouble()
+        /* ---------- BOTÓN CALCULAR ---------- */
 
-                val imc = pes / Math.pow(alt / 100, 2.0)
-                val bfit1Salud = (alt / 2) >= pes
-                val bfit2Salud = when (sexo) {
-                    "Masculino" -> cin <= 94
-                    "Femenino" -> cin <= 80
-                    else -> true
+        Button(
+            onClick = {
+                if (altura.isNotBlank() && peso.isNotBlank() && cintura.isNotBlank()) {
+
+                    val alt = altura.toDouble()
+                    val pes = peso.toDouble()
+                    val cin = cintura.toDouble()
+
+                    val imc = pes / Math.pow(alt / 100, 2.0)
+                    val bfit1Salud = (alt / 2) >= pes
+                    val bfit2Salud = when (sexo) {
+                        "Masculino" -> cin <= 94
+                        "Femenino" -> cin <= 80
+                        else -> true
+                    }
+
+                    imcResultado = "IMC: %.2f".format(imc)
+                    bfit1Resultado = "BFIT 1: ${if (bfit1Salud) "Saludable" else "Riesgo"}"
+                    bfit2Resultado = "BFIT 2: ${if (bfit2Salud) "Saludable" else "Riesgo"}"
+
+                    val riesgo = listOf(
+                        !(imc in 18.5..24.9),
+                        !bfit1Salud,
+                        !bfit2Salud
+                    ).count { it }
+
+                    val (texto, color) = when (riesgo) {
+                        0 -> "Óptimo" to Color(0xFF2E7D32)
+                        1 -> "Moderado" to Color(0xFFFFA000)
+                        2 -> "Alerta" to Color(0xFFFF7043)
+                        else -> "Crítico" to Color(0xFFD32F2F)
+                    }
+
+                    estadoGlobal = "Estado: $texto"
+                    colorEstado = color
+                    evaluacionCalculada = true
                 }
-
-                imcResultado = "IMC: %.2f".format(imc)
-                bfit1Resultado = "BFIT 1: " + if (bfit1Salud) "Saludable" else "Riesgo"
-                bfit2Resultado = "BFIT 2: " + if (bfit2Salud) "Saludable" else "Riesgo"
-
-                val riesgo = listOf(
-                    !(imc in 18.5..24.9),
-                    !bfit1Salud,
-                    !bfit2Salud
-                ).count { it }
-
-                val (texto, color) = when (riesgo) {
-                    0 -> "Óptimo" to Color(0xFF2E7D32)
-                    1 -> "Moderado" to Color(0xFFFFA000)
-                    2 -> "Alerta" to Color(0xFFFF7043)
-                    else -> "Crítico" to Color(0xFFD32F2F)
-                }
-
-                estadoGlobal = "Estado: $texto"
-                colorEstado = color
-                evaluacionCalculada = true
-            } else {
-                estadoGlobal = "Complete todos los campos"
-                colorEstado = Color.Gray
-                evaluacionCalculada = false
             }
-        }) {
+        ) {
             Text("Calcular")
         }
 
-        Spacer(Modifier.height(24.dp))
+        /* ---------- RESULTADOS ---------- */
 
         if (evaluacionCalculada) {
+
+            Spacer(modifier = Modifier.height(24.dp))
+
             TextoResultado(imcResultado)
             TextoResultado(bfit1Resultado)
             TextoResultado(bfit2Resultado)
             TextoResultado(estadoGlobal, colorEstado)
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            Button(onClick = {
-                val imcEnc = URLEncoder.encode(imcResultado, StandardCharsets.UTF_8.toString())
-                val bfit1Enc = URLEncoder.encode(bfit1Resultado, StandardCharsets.UTF_8.toString())
-                val bfit2Enc = URLEncoder.encode(bfit2Resultado, StandardCharsets.UTF_8.toString())
-                val estadoEnc = URLEncoder.encode(estadoGlobal, StandardCharsets.UTF_8.toString())
+            Button(
+                onClick = {
+                    val imcEnc = URLEncoder.encode(imcResultado, StandardCharsets.UTF_8.toString())
+                    val bfit1Enc = URLEncoder.encode(bfit1Resultado, StandardCharsets.UTF_8.toString())
+                    val bfit2Enc = URLEncoder.encode(bfit2Resultado, StandardCharsets.UTF_8.toString())
+                    val estadoEnc = URLEncoder.encode(estadoGlobal, StandardCharsets.UTF_8.toString())
 
-                navController.navigate(
-                    "${Screen.Result.route}/$imcEnc/$bfit1Enc/$bfit2Enc/$estadoEnc"
-                )
-            }) {
+                    navController.navigate(
+                        "${Screen.Result.route}/$imcEnc/$bfit1Enc/$bfit2Enc/$estadoEnc"
+                    )
+                }
+            ) {
                 Text("Avanzar a resultados")
             }
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
+
+/* ---------- COMPONENTES AUXILIARES ---------- */
 
 @Composable
 fun CampoTexto(label: String, valor: String, onValueChange: (String) -> Unit) {
@@ -152,29 +180,29 @@ fun DropdownCampo(
     onSelect: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(label)
-        Box {
-            OutlinedButton(
-                onClick = { expanded = true },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(seleccionado)
-            }
 
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                opciones.forEach {
-                    DropdownMenuItem(
-                        text = { Text(it) },
-                        onClick = {
-                            onSelect(it)
-                            expanded = false
-                        }
-                    )
-                }
+        OutlinedButton(
+            onClick = { expanded = true },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(seleccionado)
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            opciones.forEach {
+                DropdownMenuItem(
+                    text = { Text(it) },
+                    onClick = {
+                        onSelect(it)
+                        expanded = false
+                    }
+                )
             }
         }
     }
@@ -184,10 +212,8 @@ fun DropdownCampo(
 fun TextoResultado(texto: String, color: Color = Color.Black) {
     Text(
         text = texto,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         color = color,
-        modifier = Modifier
-            .padding(vertical = 4.dp)
-            .background(Color.Transparent)
+        modifier = Modifier.padding(vertical = 4.dp)
     )
 }

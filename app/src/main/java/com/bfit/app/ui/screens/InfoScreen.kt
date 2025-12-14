@@ -3,14 +3,14 @@ package com.bfit.app.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.bfit.app.ui.components.BfitHeader
 
 @Composable
 fun InfoScreen(navController: NavHostController) {
@@ -20,43 +20,77 @@ fun InfoScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(WindowInsets.systemBars.asPaddingValues())
+            .padding(horizontal = 24.dp)
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // TÍTULO
+        // HEADER BFIT (logo + subtítulo)
+        BfitHeader(title = "Información de los Indicadores")
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // IMC
         Text(
-            text = "Información de los indicadores",
-            style = MaterialTheme.typography.headlineSmall
+            text = "IMC (Índice de Masa Corporal)",
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(
+            text = "Relaciona el peso y la altura para estimar si el peso corporal es adecuado.",
+            fontSize = 14.sp
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        //  BFIT 1
+        Text(
+            text = "BFIT 1",
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(
+            text = "Evalúa la relación peso-altura considerando la estructura corporal.",
+            fontSize = 14.sp
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        //  BFIT 2
+        Text(
+            text = "BFIT 2",
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(
+            text = "Considera la circunferencia de cintura para estimar riesgo metabólico.",
+            fontSize = 14.sp
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // CONTENIDO
         Text(
-            text =
-                "IMC (Índice de Masa Corporal):\n" +
-                        "Relaciona peso y altura para estimar si el peso es adecuado.\n\n" +
-
-                        "BFIT 1:\n" +
-                        "Evalúa la relación peso-altura de forma ajustada.\n\n" +
-
-                        "BFIT 2:\n" +
-                        "Considera la circunferencia de cintura para estimar riesgo metabólico.\n\n" +
-
-                        "Estos indicadores permiten tener una visión general del estado de salud.",
-            style = MaterialTheme.typography.bodyMedium
+            text = "Estos indicadores permiten obtener una visión general del estado de salud.",
+            fontSize = 14.sp
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // BOTÓN VOLVER
-        Button(
+        //  BOTÓN VOLVER
+        OutlinedButton(
             onClick = { navController.popBackStack() },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Volver")
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
