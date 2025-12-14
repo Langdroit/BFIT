@@ -16,7 +16,7 @@ En la **Semana 1** se desarrolla la base del MVP:
 - Adición de validaciones y mensajes de error para mejorar la experiencia del usuario.
 - Reorganización completa del proyecto en tres capas: UI, ViewModel y Domain.
 
-## Actualización Fianal – Iteración de interfaz y experiencia de usuario
+## Actualización Final – Iteración de interfaz y experiencia de usuario
   Durante esta iteración se incorporaron mejoras significativas en la experiencia de usuario y en la coherencia visual de la aplicación:
 - Unificación del encabezado visual (**logo BFIT + subtítulo**) en todas las pantallas principales para mantener consistencia de identidad.
 - Reorganización del layout en las pantallas de Resultados, Resumen e Información, mejorando la jerarquía visual y la legibilidad de los datos.
