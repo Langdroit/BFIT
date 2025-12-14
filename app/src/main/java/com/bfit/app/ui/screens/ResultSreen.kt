@@ -77,7 +77,7 @@ fun ResultScreen(
             onClick = { navController.navigate(Screen.History.route) },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
-            Text("Ver historial")
+            Text("Ver Resumen")
         }
     }
 }
